@@ -3,9 +3,10 @@
 *.deb
 *.dsc
 *.tar.xz
+*/debian/files
+*/debian/*.log
+*/debian/*.debhelper
+*/debian/*.substvars
+*/gopath
 prometheus/debian/prometheus
-prometheus/debian/files
-prometheus/debian/*.log
-prometheus/debian/*.debhelper
-prometheus/debian/*.substvars
-prometheus/gopath
+prometheus-node-exporter/debian/prometheus-node-exporter
