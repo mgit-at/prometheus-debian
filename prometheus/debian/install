@@ -1,0 +1,5 @@
+gopath/src/github.com/prometheus/prometheus/prometheus usr/bin/
+gopath/src/github.com/prometheus/prometheus/promtool usr/bin/
+gopath/src/github.com/prometheus/prometheus/README.md usr/share/doc/prometheus/
+gopath/src/github.com/prometheus/prometheus/LICENSE usr/share/doc/prometheus/
+prometheus.yml /etc/prometheus/

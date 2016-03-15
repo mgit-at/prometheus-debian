@@ -1,0 +1,3 @@
+CONFIG_FILE=/etc/prometheus/prometheus.yml
+STORAGE_PATH=/var/lib/prometheus/metrics
+ARGS=

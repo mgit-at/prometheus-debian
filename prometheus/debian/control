@@ -1,0 +1,12 @@
+Source: prometheus
+Maintainer: Christoph Hack <chack@mgit.at>
+Build-Depends: debhelper (>= 9.0.0), dh-systemd  (>= 1.5)
+Standards-Version: 3.9.6
+Priority: extra
+Section: admin
+
+Package: prometheus
+Priority: extra
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Prometheus monitoring system

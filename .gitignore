@@ -1,0 +1,11 @@
+*.build
+*.changes
+*.deb
+*.dsc
+*.tar.xz
+prometheus/debian/prometheus
+prometheus/debian/files
+prometheus/debian/*.log
+prometheus/debian/*.debhelper
+prometheus/debian/*.substvars
+prometheus/gopath
