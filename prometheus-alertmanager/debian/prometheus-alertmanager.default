@@ -1,0 +1,3 @@
+CONFIG_FILE=/etc/prometheus-alertmanager/alertmanager.yml
+STORAGE_PATH=/var/lib/prometheus-alertmanager/
+ARGS=
