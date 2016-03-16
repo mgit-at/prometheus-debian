@@ -1,0 +1,4 @@
+gopath/src/github.com/prometheus/blackbox_exporter/prometheus-blackbox-exporter usr/bin/
+gopath/src/github.com/prometheus/blackbox_exporter/README.md usr/share/doc/prometheus-blackbox-exporter/
+gopath/src/github.com/prometheus/blackbox_exporter/LICENSE usr/share/doc/prometheus-blackbox-exporter/
+blackbox.yml etc/prometheus-blackbox-exporter/

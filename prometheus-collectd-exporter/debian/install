@@ -1,0 +1,3 @@
+gopath/bin/prometheus-collectd-exporter usr/bin/
+gopath/src/github.com/prometheus/collectd-exporter/README.md usr/share/doc/prometheus-collectd-exporter/
+gopath/src/github.com/prometheus/collectd-exporter/LICENSE usr/share/doc/prometheus-collectd-exporter/

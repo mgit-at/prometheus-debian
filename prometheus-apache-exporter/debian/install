@@ -1,0 +1,3 @@
+gopath/bin/prometheus-apache-exporter usr/bin/
+gopath/src/github.com/neezgee/apache_exporter/README.md usr/share/doc/prometheus-apache-exporter/
+gopath/src/github.com/neezgee/apache_exporter/LICENSE usr/share/doc/prometheus-apache-exporter/

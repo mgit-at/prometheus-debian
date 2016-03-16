@@ -1,0 +1,5 @@
+prometheus-apache-exporter (0.1) stable; urgency=medium
+
+  * Initial release.
+
+ -- Christoph Hack <chack@mgit.at>  Tue, 15 Mar 2016 09:29:14 +0100

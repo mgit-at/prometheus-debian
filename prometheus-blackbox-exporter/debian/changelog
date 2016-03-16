@@ -1,0 +1,5 @@
+prometheus-blackbox-exporter (0.0.1) stable; urgency=medium
+
+  * Initial release.
+
+ -- Christoph Hack <chack@mgit.at>  Wed, 16 Mar 2016 09:21:14 +0100

@@ -1,0 +1,2 @@
+CONFIG_FILE=/etc/prometheus-blackbox-exporter/blackbox.yml
+ARGS=
