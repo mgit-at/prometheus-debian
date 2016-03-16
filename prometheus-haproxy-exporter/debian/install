@@ -1,0 +1,3 @@
+gopath/src/github.com/prometheus/haproxy_exporter/prometheus-haproxy-exporter usr/bin/
+gopath/src/github.com/prometheus/haproxy_exporter/README.md usr/share/doc/prometheus-haproxy-exporter/
+gopath/src/github.com/prometheus/haproxy_exporter/LICENSE usr/share/doc/prometheus-haproxy-exporter/
