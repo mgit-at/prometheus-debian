@@ -12,5 +12,6 @@ prometheus/debian/prometheus
 prometheus-node-exporter/debian/prometheus-node-exporter
 prometheus-collectd-exporter/debian/prometheus-collectd-exporter
 prometheus-apache-exporter/debian/prometheus-apache-exporter
+prometheus-mysqld-exporter/debian/prometheus-mysqld-exporter
 prometheus-blackbox-exporter/debian/prometheus-blackbox-exporter
 prometheus-alertmanager/debian/prometheus-alertmanager

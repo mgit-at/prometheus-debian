@@ -1,0 +1,3 @@
+gopath/src/github.com/prometheus/mysqld_exporter/prometheus-mysqld-exporter usr/bin/
+gopath/src/github.com/prometheus/mysqld_exporter/README.md usr/share/doc/prometheus-mysqld-exporter/
+gopath/src/github.com/prometheus/mysqld_exporter/LICENSE usr/share/doc/prometheus-mysqld-exporter/

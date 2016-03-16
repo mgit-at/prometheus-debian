@@ -1,0 +1,21 @@
+[Unit]
+Description=MySQLd exporter for Prometheus
+Documentation=https://prometheus.io/docs/introduction/overview/
+
+[Service]
+User=prometheus-mysqld-exporter
+Group=prometheus-mysqld-exporter
+WorkingDirectory=/var/lib/prometheus-mysqld-exporter/
+EnvironmentFile=/etc/default/prometheus-mysqld-exporter
+ExecStart=/usr/bin/prometheus-mysqld-exporter $ARGS
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=full
+ProtectHome=true
+CapabilityBoundingSet=~CAP_SYS_ADMIN CAP_DAC_OVERRIDE CAP_SYS_PTRACE
+NoNewPrivileges=true
+Restart=on-failure
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
