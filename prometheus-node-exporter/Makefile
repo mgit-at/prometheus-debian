@@ -10,6 +10,7 @@ build:
 	mkdir -p $(GOPATH)
 	go get -u github.com/prometheus/node_exporter
 	git -C $(SRCDIR) checkout -b $(BRANCH)
+	git -C $(SRCDIR) apply < systemd_private.patch
 	go install github.com/prometheus/node_exporter
 	cp -f $(GOPATH)/bin/node_exporter $(GOPATH)/bin/prometheus-node-exporter
 
