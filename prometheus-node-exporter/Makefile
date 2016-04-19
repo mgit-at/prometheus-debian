@@ -2,7 +2,7 @@ export GOROOT := /opt/go
 export GOPATH := $(shell pwd)/gopath
 export SRCDIR := $(GOPATH)/src/github.com/prometheus/node_exporter
 export PATH   := $(GOROOT)/bin:$(PATH)
-export BRANCH := 0.11.0
+export BRANCH := 0.12.0rc3
 
 all: build
 

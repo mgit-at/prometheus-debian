@@ -11,7 +11,7 @@ build:
 	git clone https://github.com/prometheus/blackbox_exporter.git $(SRCDIR)
 	make -C $(SRCDIR)
 	cp -f $(SRCDIR)/blackbox_exporter $(SRCDIR)/prometheus-blackbox-exporter
-	
+
 clean:
 	rm -rf $(SRCDIR)
 

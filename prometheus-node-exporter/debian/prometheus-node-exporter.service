@@ -3,7 +3,6 @@ Description=Node (system metrics) exporter for Prometheus
 Documentation=https://prometheus.io/docs/introduction/overview/
 
 [Service]
-WorkingDirectory=/var/lib/prometheus/
 EnvironmentFile=/etc/default/prometheus-node-exporter
 ExecStart=/usr/bin/prometheus-node-exporter $ARGS
 Restart=on-failure

@@ -10,8 +10,8 @@ build:
 	mkdir -p $(GOPATH)
 	go get -v -u github.com/prometheus/alertmanager
 	git -C $(SRCDIR) checkout $(BRANCH)
-	go install github.com/prometheus/alertmanager
-	cp -f $(GOPATH)/bin/alertmanager $(GOPATH)/bin/prometheus-alertmanager
+	make -C $(SRCDIR) build
+	cp -f $(SRCDIR)/alertmanager $(SRCDIR)/prometheus-alertmanager
 
 clean:
 	rm -rf $(SRCDIR)

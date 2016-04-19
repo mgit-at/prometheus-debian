@@ -1,4 +1,4 @@
-gopath/bin/prometheus-alertmanager usr/bin/
+gopath/src/github.com/prometheus/alertmanager/prometheus-alertmanager usr/bin/
 alertmanager.yml etc/prometheus-alertmanager/
 gopath/src/github.com/prometheus/alertmanager/README.md usr/share/doc/prometheus-alertmanager/
 gopath/src/github.com/prometheus/alertmanager/LICENSE usr/share/doc/prometheus-alertmanager/
