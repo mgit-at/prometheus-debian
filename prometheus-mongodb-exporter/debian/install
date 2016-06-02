@@ -1,0 +1,3 @@
+gopath/src/github.com/dcu/mongodb_exporter/prometheus-mongodb-exporter usr/bin/
+gopath/src/github.com/dcu/mongodb_exporter/README.md usr/share/doc/prometheus-mongodb-exporter/
+gopath/src/github.com/dcu/mongodb_exporter/LICENSE usr/share/doc/prometheus-mongodb-exporter/
