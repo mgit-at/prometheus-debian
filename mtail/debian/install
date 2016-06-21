@@ -1,0 +1,3 @@
+gopath/bin/mtail usr/bin/
+gopath/src/github.com/google/mtail/README.md usr/share/doc/mtail/
+gopath/src/github.com/google/mtail/LICENSE usr/share/doc/mtail/

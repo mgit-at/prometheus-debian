@@ -1,17 +1,18 @@
 export GOROOT := /opt/go
 export GOPATH := $(shell pwd)/gopath
-export SRCDIR := $(GOPATH)/src/github.com/prometheus/alertmanager
+export SRCDIR := $(GOPATH)/src/github.com/google/mtail
 export PATH   := $(GOROOT)/bin:$(PATH)
-export BRANCH := release-0.2
+export BRANCH := master
+export GO_VERSION := 1.6
 
 all: build
 
 build:
 	mkdir -p $(GOPATH)
-	go get -v -u github.com/prometheus/alertmanager
+	git clone https://github.com/google/mtail.git $(SRCDIR)
 	git -C $(SRCDIR) checkout $(BRANCH)
-	make -C $(SRCDIR) build
-	cp -f $(SRCDIR)/alertmanager $(SRCDIR)/prometheus-alertmanager
+	git -C $(SRCDIR) apply < address.patch
+	make -C $(SRCDIR)
 
 clean:
 	rm -rf $(SRCDIR)

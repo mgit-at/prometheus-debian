@@ -1,0 +1,43 @@
+diff --git a/main.go b/main.go
+index d98d904..b93643f 100644
+--- a/main.go
++++ b/main.go
+@@ -1,6 +1,7 @@
+ package main
+ 
+ import (
++	"flag"
+ 	"net/http"
+ 	"os"
+ 	"strings"
+@@ -21,8 +22,21 @@ func initLogger() {
+ 	}
+ }
+ 
++var (
++	listenAddress = flag.String("web.listen-address", "", "The address on which to expose the web interface and generated Prometheus metrics.")
++)
++
+ func main() {
+ 	initConfig()
++	lflag := flag.Lookup("web.listen-address")
++	lflag.DefValue = ":" + config.PublishPort
++	lflag.Value.Set(lflag.DefValue)
++	flag.Parse()
++	if flag.NArg() != 0 {
++		flag.Usage()
++		os.Exit(1)
++	}
++
+ 	initLogger()
+ 	exporter := newExporter()
+ 	prometheus.MustRegister(exporter)
+@@ -46,7 +60,7 @@ func main() {
+ 		//		"RABBIT_PASSWORD": config.RABBIT_PASSWORD,
+ 	}).Info("Starting RabbitMQ exporter")
+ 
+-	log.Fatal(http.ListenAndServe(":"+config.PublishPort, nil))
++	log.Fatal(http.ListenAndServe(*listenAddress, nil))
+ }
+ 
+ func getLogLevel() log.Level {

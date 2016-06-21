@@ -1,0 +1,6 @@
+#RABBIT_URL=http://localhost:15672
+#RABBIT_USER=guest
+#RABBIT_PASSWORD=guest
+#OUTPUT_FORMAT=json
+PUBLISH_PORT=9213
+ARGS=-web.listen-address=127.0.0.1:9213

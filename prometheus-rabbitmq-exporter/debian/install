@@ -1,0 +1,3 @@
+gopath/src/github.com/kbudde/rabbitmq_exporter/prometheus-rabbitmq-exporter usr/bin/
+gopath/src/github.com/kbudde/rabbitmq_exporter/README.md usr/share/doc/prometheus-rabbitmq-exporter/
+gopath/src/github.com/kbudde/rabbitmq_exporter/LICENSE.md usr/share/doc/prometheus-rabbitmq-exporter/

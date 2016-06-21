@@ -1,0 +1,49 @@
+diff --git a/main.go b/main.go
+index 4b977b4..bf8708b 100644
+--- a/main.go
++++ b/main.go
+@@ -15,10 +15,11 @@ import (
+ )
+ 
+ var (
+-	port   = flag.String("port", "3903", "HTTP port to listen on.")
+-	logs   = flag.String("logs", "", "List of files to monitor.")
+-	logFds = flag.String("logfds", "", "List of file descriptors to monitor.")
+-	progs  = flag.String("progs", "", "Directory containing programs")
++	address = flag.String("address", "", "HTTP address to listen on.")
++	port    = flag.String("port", "3903", "HTTP port to listen on.")
++	logs    = flag.String("logs", "", "List of files to monitor.")
++	logFds  = flag.String("logfds", "", "List of file descriptors to monitor.")
++	progs   = flag.String("progs", "", "Directory containing programs")
+ 
+ 	oneShot        = flag.Bool("one_shot", false, "Run on logs until EOF and exit.")
+ 	oneShotMetrics = flag.Bool("one_shot_metrics", false, "Dump metrics to stdout after one shot mode.")
+@@ -56,6 +57,7 @@ func main() {
+ 		Progs:                *progs,
+ 		LogPaths:             logPathnames,
+ 		LogFds:               logDescriptors,
++		Address:              *address,
+ 		Port:                 *port,
+ 		OneShot:              *oneShot,
+ 		OneShotMetrics:       *oneShotMetrics,
+diff --git a/mtail/mtail.go b/mtail/mtail.go
+index 6322b36..298efaf 100644
+--- a/mtail/mtail.go
++++ b/mtail/mtail.go
+@@ -136,6 +136,7 @@ type Options struct {
+ 	Progs                string
+ 	LogPaths             []string
+ 	LogFds               []int
++	Address              string
+ 	Port                 string
+ 	OneShot              bool
+ 	OneShotMetrics       bool
+@@ -224,7 +225,7 @@ func (m *Mtail) Serve() {
+ 
+ 	go func() {
+ 		glog.Infof("Listening on port %s", m.o.Port)
+-		err := http.ListenAndServe(":"+m.o.Port, nil)
++		err := http.ListenAndServe(m.o.Address+":"+m.o.Port, nil)
+ 		if err != nil {
+ 			glog.Exit(err)
+ 		}

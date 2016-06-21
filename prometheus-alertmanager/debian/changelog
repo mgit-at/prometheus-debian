@@ -1,3 +1,10 @@
+prometheus-alertmanager (0.2.0) stable; urgency=medium
+
+  * updated upstream version
+
+ -- Christoph Hack <chack@mgit.at>  Mon, 21 Jun 2016 15:35:14 +0200
+
+
 prometheus-alertmanager (0.1.1) stable; urgency=medium
 
   * updated build instructions

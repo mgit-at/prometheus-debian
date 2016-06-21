@@ -1,0 +1,21 @@
+[Unit]
+Description=rabbitmq exporter for Prometheus
+Documentation=https://prometheus.io/docs/introduction/overview/
+
+[Service]
+User=prometheus-rabbitmq-exporter
+Group=prometheus-rabbitmq-exporter
+WorkingDirectory=/var/lib/prometheus-rabbitmq-exporter/
+EnvironmentFile=/etc/default/prometheus-rabbitmq-exporter
+ExecStart=/usr/bin/prometheus-rabbitmq-exporter $ARGS
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=full
+ProtectHome=true
+CapabilityBoundingSet=~CAP_SYS_ADMIN CAP_DAC_OVERRIDE CAP_SYS_PTRACE
+NoNewPrivileges=true
+Restart=on-failure
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
