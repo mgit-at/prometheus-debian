@@ -1,0 +1,219 @@
+diff --git a/collector/metrics.go b/collector/metrics.go
+index 10c9899..df75706 100644
+--- a/collector/metrics.go
++++ b/collector/metrics.go
+@@ -383,15 +383,15 @@ func (storageStats *StorageStats) Export(ch chan<- prometheus.Metric) {
+ 
+ // CursorStatsOpen are the stats for open cursors
+ type CursorStatsOpen struct {
+-	NoTimeout	float64	`bson:"noTimeout"`
+-	Pinned		float64 `bson:"pinned"`
+-	Total		float64 `bson:"total"`
++	NoTimeout float64 `bson:"noTimeout"`
++	Pinned    float64 `bson:"pinned"`
++	Total     float64 `bson:"total"`
+ }
+ 
+ // CursorStats are the stats for cursors
+ type CursorStats struct {
+-	TimedOut	float64			`bson:"timedOut"`
+-	Open		*CursorStatsOpen	`bson:"open"`
++	TimedOut float64          `bson:"timedOut"`
++	Open     *CursorStatsOpen `bson:"open"`
+ }
+ 
+ // Export exports the cursor stats.
+diff --git a/collector/mongodb_collector.go b/collector/mongodb_collector.go
+index 7d443c8..b5520ef 100644
+--- a/collector/mongodb_collector.go
++++ b/collector/mongodb_collector.go
+@@ -19,6 +19,8 @@ type MongodbCollectorOpts struct {
+ 	TLSPrivateKeyFile     string
+ 	TLSCaFile             string
+ 	TLSHostnameValidation bool
++	CollectReplSet        bool
++	CollectOplog          bool
+ }
+ 
+ func (in MongodbCollectorOpts) toSessionOps() shared.MongoSessionOpts {
+@@ -58,10 +60,14 @@ func (exporter *MongodbCollector) Collect(ch chan<- prometheus.Metric) {
+ 		defer mongoSess.Close()
+ 		glog.Info("Collecting Server Status")
+ 		exporter.collectServerStatus(mongoSess, ch)
+-		glog.Info("Collecting ReplSet Status")
+-		exporter.collectReplSetStatus(mongoSess, ch)
+-		glog.Info("Collecting Oplog Status")
+-		exporter.collectOplogStatus(mongoSess, ch)
++		if exporter.Opts.CollectReplSet {
++			glog.Info("Collecting ReplSet Status")
++			exporter.collectReplSetStatus(mongoSess, ch)
++		}
++		if exporter.Opts.CollectOplog {
++			glog.Info("Collecting Oplog Status")
++			exporter.collectOplogStatus(mongoSess, ch)
++		}
+ 	}
+ }
+ 
+@@ -86,12 +92,12 @@ func (exporter *MongodbCollector) collectReplSetStatus(session *mgo.Session, ch
+ }
+ 
+ func (exporter *MongodbCollector) collectOplogStatus(session *mgo.Session, ch chan<- prometheus.Metric) *OplogStatus {
+-        oplogStatus := GetOplogStatus(session)
++	oplogStatus := GetOplogStatus(session)
+ 
+-        if oplogStatus != nil {
+-                glog.Info("exporting OplogStatus Metrics")
+-                oplogStatus.Export(ch)
+-        }
++	if oplogStatus != nil {
++		glog.Info("exporting OplogStatus Metrics")
++		oplogStatus.Export(ch)
++	}
+ 
+-        return oplogStatus
++	return oplogStatus
+ }
+diff --git a/collector/oplog_status.go b/collector/oplog_status.go
+index cc2a2ef..22f7116 100644
+--- a/collector/oplog_status.go
++++ b/collector/oplog_status.go
+@@ -1,50 +1,50 @@
+ package collector
+ 
+ import (
+-	"time"
+ 	"github.com/golang/glog"
+ 	"github.com/prometheus/client_golang/prometheus"
+ 	"gopkg.in/mgo.v2"
+ 	"gopkg.in/mgo.v2/bson"
++	"time"
+ )
+ 
+ var (
+ 	oplogStatusCount = prometheus.NewGauge(prometheus.GaugeOpts{
+-		Namespace:	Namespace,
+-		Subsystem:	"replset_oplog",
+-		Name:		"items_total",
+-		Help:		"The total number of changes in the oplog",
++		Namespace: Namespace,
++		Subsystem: "replset_oplog",
++		Name:      "items_total",
++		Help:      "The total number of changes in the oplog",
+ 	})
+ 	oplogStatusHeadTimestamp = prometheus.NewGauge(prometheus.GaugeOpts{
+-		Namespace:	Namespace,
+-		Subsystem:	"replset_oplog",
+-		Name:		"head_timestamp",
+-		Help:		"The timestamp of the newest change in the oplog",
++		Namespace: Namespace,
++		Subsystem: "replset_oplog",
++		Name:      "head_timestamp",
++		Help:      "The timestamp of the newest change in the oplog",
+ 	})
+ 	oplogStatusTailTimestamp = prometheus.NewGauge(prometheus.GaugeOpts{
+-		Namespace:	Namespace,
+-		Subsystem:	"replset_oplog",
+-		Name:		"tail_timestamp",
+-		Help:		"The timestamp of the oldest change in the oplog",
++		Namespace: Namespace,
++		Subsystem: "replset_oplog",
++		Name:      "tail_timestamp",
++		Help:      "The timestamp of the oldest change in the oplog",
+ 	})
+ 	oplogStatusSizeBytes = prometheus.NewGaugeVec(prometheus.GaugeOpts{
+-		Namespace:	Namespace,
+-		Subsystem:	"replset_oplog",
+-		Name:		"size_bytes",
+-		Help:		"Size of oplog in bytes",
++		Namespace: Namespace,
++		Subsystem: "replset_oplog",
++		Name:      "size_bytes",
++		Help:      "Size of oplog in bytes",
+ 	}, []string{"type"})
+ )
+ 
+ type OplogCollectionStats struct {
+-	Count		float64	`bson:"count"`
+-	Size		float64	`bson:"size"`
+-	StorageSize	float64 `bson:"storageSize"`
++	Count       float64 `bson:"count"`
++	Size        float64 `bson:"size"`
++	StorageSize float64 `bson:"storageSize"`
+ }
+ 
+ type OplogStatus struct {
+-	TailTimestamp	float64
+-	HeadTimestamp	float64
+-	CollectionStats	*OplogCollectionStats
++	TailTimestamp   float64
++	HeadTimestamp   float64
++	CollectionStats *OplogCollectionStats
+ }
+ 
+ // there's gotta be a better way to do this, but it works for now :/
+@@ -59,9 +59,11 @@ func GetOplogTimestamp(session *mgo.Session, returnTail bool) (float64, error) {
+ 	}
+ 
+ 	var err error
+-	var tries int    = 0
++	var tries int = 0
+ 	var maxTries int = 2
+-	var result struct { Timestamp bson.MongoTimestamp `bson:"ts"` }
++	var result struct {
++		Timestamp bson.MongoTimestamp `bson:"ts"`
++	}
+ 	for tries < maxTries {
+ 		err = session.DB("local").C("oplog.rs").Find(nil).Sort(sortBy).Limit(1).One(&result)
+ 		if err != nil {
+@@ -77,7 +79,7 @@ func GetOplogTimestamp(session *mgo.Session, returnTail bool) (float64, error) {
+ 
+ func GetOplogCollectionStats(session *mgo.Session) (*OplogCollectionStats, error) {
+ 	results := &OplogCollectionStats{}
+-	err := session.DB("local").Run(bson.M{ "collStats" : "oplog.rs" }, &results)
++	err := session.DB("local").Run(bson.M{"collStats": "oplog.rs"}, &results)
+ 	return results, err
+ }
+ 
+@@ -108,7 +110,7 @@ func (status *OplogStatus) Describe(ch chan<- *prometheus.Desc) {
+ }
+ 
+ func GetOplogStatus(session *mgo.Session) *OplogStatus {
+-	oplogStatus          := &OplogStatus{}
++	oplogStatus := &OplogStatus{}
+ 	collectionStats, err := GetOplogCollectionStats(session)
+ 	if err != nil {
+ 		glog.Error("Failed to get local.oplog_rs collection stats.")
+@@ -123,8 +125,8 @@ func GetOplogStatus(session *mgo.Session) *OplogStatus {
+ 	}
+ 
+ 	oplogStatus.CollectionStats = collectionStats
+-	oplogStatus.HeadTimestamp   = headTimestamp
+-	oplogStatus.TailTimestamp   = tailTimestamp
++	oplogStatus.HeadTimestamp = headTimestamp
++	oplogStatus.TailTimestamp = tailTimestamp
+ 
+ 	return oplogStatus
+ }
+diff --git a/mongodb_exporter.go b/mongodb_exporter.go
+index ef1a5ba..0c6ebce 100644
+--- a/mongodb_exporter.go
++++ b/mongodb_exporter.go
+@@ -47,6 +47,8 @@ var (
+ 	enabledGroupsFlag                   = flag.String("groups.enabled", "asserts,durability,background_flushing,connections,extra_info,global_lock,index_counters,network,op_counters,op_counters_repl,memory,locks,metrics", "Comma-separated list of groups to use, for more info see: docs.mongodb.org/manual/reference/command/serverStatus/")
+ 	authUserFlag                        = flag.String("auth.user", "", "Username for basic auth.")
+ 	authPassFlag                        = flag.String("auth.pass", "", "Password for basic auth.")
++	mongodbCollectOplog                        = flag.Bool("mongodb.collect.oplog", true, "collect Mongodb Oplog status")
++	mongodbCollectReplSet                      = flag.Bool("mongodb.collect.replset", true, "collect Mongodb replica set status")
+ )
+ 
+ type basicAuthHandler struct {
+@@ -132,6 +134,8 @@ func registerCollector() {
+ 		TLSPrivateKeyFile:     *mongodbTlsPrivateKey,
+ 		TLSCaFile:             *mongodbTlsCa,
+ 		TLSHostnameValidation: !(*mongodbTlsDisableHostnameValidation),
++		CollectOplog: *mongodbCollectOplog,
++		CollectReplSet: *mongodbCollectReplSet,
+ 	})
+ 	prometheus.MustRegister(mongodbCollector)
+ }
