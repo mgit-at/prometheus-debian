@@ -11,6 +11,7 @@ build:
 	mkdir -p $(GOPATH)
 	git clone https://github.com/dcu/mongodb_exporter.git $(SRCDIR)
 	git -C $(SRCDIR) checkout $(BRANCH)
+	git -C $(SRCDIR) apply < oplog.patch
 	go get -u github.com/golang/glog
 	make -C $(SRCDIR) build
 	cp -f $(SRCDIR)/mongodb_exporter $(SRCDIR)/prometheus-mongodb-exporter

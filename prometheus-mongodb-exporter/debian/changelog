@@ -1,3 +1,15 @@
+prometheus-mongodb-exporter (0.0.3) stable; urgency=medium
+
+  * add flag to disable oplog and repl status.
+
+ -- Christoph Hack <chack@mgit.at>  Fri,  1 Jul 2016 13:18:11 +0200
+
+prometheus-mongodb-exporter (0.0.2) stable; urgency=medium
+
+  * updated upstream version.
+
+ -- Christoph Hack <chack@mgit.at>  Fri, 24 Jun 2016 13:18:11 +0200
+
 prometheus-mongodb-exporter (0.0.1) stable; urgency=medium
 
   * Initial release.
