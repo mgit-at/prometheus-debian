@@ -1,3 +1,9 @@
+prometheus-blackbox-exporter (0.0.2) stable; urgency=medium
+
+  * send correct server name for HTTPS probes
+
+ -- Christoph Hack <chack@mgit.at>  Tue,  5 Jul 2016 15:50:01 +0200
+
 prometheus-blackbox-exporter (0.0.1a) stable; urgency=medium
 
   * updated exporter to support custom host headers.

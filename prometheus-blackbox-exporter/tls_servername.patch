@@ -1,0 +1,35 @@
+diff --git a/http.go b/http.go
+index c246f5f..0946348 100644
+--- a/http.go
++++ b/http.go
+@@ -14,6 +14,7 @@
+ package main
+ 
+ import (
++	"crypto/tls"
+ 	"errors"
+ 	"fmt"
+ 	"io"
+@@ -58,8 +59,10 @@ func probeHTTP(target string, w http.ResponseWriter, module Module) (success boo
+ 	var isSSL, redirects int
+ 	config := module.HTTP
+ 
++	transport := &http.Transport{}
+ 	client := &http.Client{
+-		Timeout: module.Timeout,
++		Timeout:   module.Timeout,
++		Transport: transport,
+ 	}
+ 
+ 	client.CheckRedirect = func(_ *http.Request, via []*http.Request) error {
+@@ -86,6 +89,10 @@ func probeHTTP(target string, w http.ResponseWriter, module Module) (success boo
+ 	for key, value := range config.Headers {
+ 		if strings.Title(key) == "Host" {
+ 			request.Host = value
++			if transport.TLSClientConfig == nil {
++				transport.TLSClientConfig = &tls.Config{}
++			}
++			transport.TLSClientConfig.ServerName = value
+ 			continue
+ 		}
+ 		request.Header.Set(key, value)

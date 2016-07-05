@@ -9,6 +9,7 @@ all: build
 
 build:
 	git clone https://github.com/prometheus/blackbox_exporter.git $(SRCDIR)
+	git -C $(SRCDIR) apply < tls_servername.patch
 	make -C $(SRCDIR)
 	cp -f $(SRCDIR)/blackbox_exporter $(SRCDIR)/prometheus-blackbox-exporter
 
