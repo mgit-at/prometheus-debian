@@ -1,3 +1,9 @@
+prometheus (1.1.0) stable; urgency=medium
+
+  * upstream release.
+
+ -- Christoph Hack <chack@mgit.at>  Tue,  6 Sep 2016 11:11:00 +0200
+
 prometheus (0.18.0) stable; urgency=medium
 
   * upstream release.
