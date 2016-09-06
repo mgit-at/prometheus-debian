@@ -2,13 +2,13 @@ export GOROOT := /opt/go
 export GOPATH := $(shell pwd)/gopath
 export SRCDIR := $(GOPATH)/src/github.com/prometheus/alertmanager
 export PATH   := $(GOROOT)/bin:$(PATH)
-export BRANCH := release-0.2
+export BRANCH := v0.4.2
 
 all: build
 
 build:
-	mkdir -p $(GOPATH)
-	go get -v -u github.com/prometheus/alertmanager
+	mkdir -p $(SRCDIR)
+	git clone https://github.com/prometheus/alertmanager.git $(SRCDIR)
 	git -C $(SRCDIR) checkout $(BRANCH)
 	make -C $(SRCDIR) build
 	cp -f $(SRCDIR)/alertmanager $(SRCDIR)/prometheus-alertmanager
