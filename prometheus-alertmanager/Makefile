@@ -2,7 +2,7 @@ export GOROOT := /opt/go
 export GOPATH := $(shell pwd)/gopath
 export SRCDIR := $(GOPATH)/src/github.com/prometheus/alertmanager
 export PATH   := $(GOROOT)/bin:$(PATH)
-export BRANCH := v0.4.2
+export BRANCH := v0.5.1
 
 all: build
 

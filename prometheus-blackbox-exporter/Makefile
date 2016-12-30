@@ -2,7 +2,7 @@ export GOROOT := /opt/go
 export GOPATH := $(shell pwd)/gopath
 export SRCDIR := $(GOPATH)/src/github.com/prometheus/blackbox_exporter
 export PATH   := $(GOROOT)/bin:$(PATH)
-export BRANCH := master
+export BRANCH := v0.3.0
 export GO_VERSION := 1.6
 
 all: build

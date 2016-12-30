@@ -2,7 +2,7 @@ GOROOT := /opt/go
 GOPATH := $(shell pwd)/gopath
 SRCDIR := $(GOPATH)/src/github.com/prometheus/prometheus
 PATH   := $(GOROOT)/bin:$(PATH)
-BRANCH := v1.1.0
+BRANCH := v1.4.1
 
 all: build
 

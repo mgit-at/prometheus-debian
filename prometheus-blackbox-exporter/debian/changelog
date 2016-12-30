@@ -1,3 +1,9 @@
+prometheus-blackbox-exporter (0.3.0) stable; urgency=medium
+
+  * upstream release.
+
+ -- Christoph Hack <chack@mgit.at>  Fri, 30 Dec 2016 12:46:00 +0100
+
 prometheus-blackbox-exporter (0.0.2) stable; urgency=medium
 
   * send correct server name for HTTPS probes
